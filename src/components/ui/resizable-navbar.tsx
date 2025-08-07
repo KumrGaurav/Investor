@@ -7,7 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 interface NavbarProps {
@@ -81,7 +81,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
               child as React.ReactElement<{ visible?: boolean }>,
               { visible }
             )
-          : child,
+          : child
       )}
     </motion.div>
   );
@@ -109,7 +109,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       className={cn(
         "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
         visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
+        className
       )}
     >
       {children}
@@ -132,7 +132,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         }}
         className={cn(
           "absolute inset-x-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
-          className,
+          className
         )}
       >
         {items.map((item, idx) => (
@@ -168,25 +168,26 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
               </a>
 
               {/* Sub-items dropdown */}
-              {item.subItems && (hoveredIndex === idx || activeSubMenu === idx) && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute left-0 top-full z-50 mt-2 w-48 rounded-lg bg-white shadow-lg dark:bg-neutral-800"
-                >
-                  {item.subItems.map((subItem, subIdx) => (
-                    <a
-                      key={`sub-link-${subIdx}`}
-                      href={subItem.link}
-                      className="block px-4 py-2 text-sm text-neutral-600 hover:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700"
-                      onClick={onItemClick}
-                    >
-                      {subItem.name}
-                    </a>
-                  ))}
-                </motion.div>
-              )}
+              {item.subItems &&
+                (hoveredIndex === idx || activeSubMenu === idx) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute left-0 top-full z-50 mt-2 w-48 rounded-lg bg-white shadow-lg dark:bg-neutral-800"
+                  >
+                    {item.subItems.map((subItem, subIdx) => (
+                      <a
+                        key={`sub-link-${subIdx}`}
+                        href={subItem.link}
+                        className="block px-4 py-2 text-sm text-neutral-600 hover:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700"
+                        onClick={onItemClick}
+                      >
+                        {subItem.name}
+                      </a>
+                    ))}
+                  </motion.div>
+                )}
             </div>
           </div>
         ))}
@@ -287,7 +288,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
       className={cn(
         "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
         visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
+        className
       )}
     >
       {children}
@@ -303,7 +304,7 @@ export const MobileNavHeader = ({
     <div
       className={cn(
         "flex w-full flex-row items-center justify-between",
-        className,
+        className
       )}
     >
       {children}
@@ -327,22 +328,28 @@ export const MobileNavMenu = ({
           exit={{ opacity: 0, y: -20 }}
           className={cn(
             "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-1 overflow-y-auto rounded-lg bg-white p-2 shadow-lg dark:bg-neutral-950",
-            className,
+            className
           )}
           style={{ maxHeight: "calc(100vh - 100px)" }}
         >
           {children}
           <div className="flex w-full flex-row items-center justify-around gap-5 border-t border-gray-100 pt-4 dark:border-neutral-800">
-            <NavbarButton 
-              variant="secondary" 
-              onClick={() => router.push('/login')}
+            <NavbarButton
+              variant="secondary"
+              onClick={() => {
+                onClose();
+                router.push("/login");
+              }}
               className="mx-auto w-full/2 text-center"
             >
               Login
             </NavbarButton>
-            <NavbarButton 
-              variant="gradient" 
-              onClick={() => router.push('/signup')}
+            <NavbarButton
+              variant="gradient"
+              onClick={() => {
+                onClose();
+                router.push("/signup")
+              }}
               className="mx-auto w-full/2 text-center"
             >
               Sign Up
@@ -417,8 +424,7 @@ export const NavbarButton = ({
       "bg-white text-black shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
     secondary:
       "border border-neutral-200 dark:border-white/[0.2] text-black dark:text-white bg-transparent",
-    dark:
-      "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
+    dark: "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
     gradient:
       "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
   };
