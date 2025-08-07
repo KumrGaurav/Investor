@@ -7,7 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
-import router from "next/router";
+import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from "react";
 
 interface NavbarProps {
@@ -317,6 +317,7 @@ export const MobileNavMenu = ({
   isOpen,
   onClose,
 }: MobileNavMenuProps) => {
+  const router = useRouter();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -335,12 +336,14 @@ export const MobileNavMenu = ({
             <NavbarButton 
               variant="secondary" 
               onClick={() => router.push('/login')}
+              className="mx-auto w-full/2 text-center"
             >
               Login
             </NavbarButton>
             <NavbarButton 
               variant="gradient" 
               onClick={() => router.push('/signup')}
+              className="mx-auto w-full/2 text-center"
             >
               Sign Up
             </NavbarButton>
