@@ -9,10 +9,22 @@ import SafeImage from "./SafeImage";
 import FloatingInput from "./FloatingInput";
 import PropertyCard from "./PropertyCard";
 import { FaBed, FaRuler, FaShower } from "react-icons/fa";
+import { Label } from "../components/ui/label";
+import { Input } from "../components/ui/input";
+import { cn } from "@/utils/lib/utils";
+
+import { Button } from "@/components/ui/stateful-button";
 
 const GoogleMap = dynamic(() => import("@/components/GoogleMap"), {
   ssr: false,
 });
+
+// dummy API call
+const handleClick = () => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 4000);
+  });
+};
 
 interface PropertyDetailsProps {
   property: Property;
@@ -88,7 +100,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
         {/* Title */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{property.address}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+              {property.address}
+            </h1>
             <span
               className={`px-3 py-1 rounded-full text-sm font-medium ${
                 property.status === "FOR SALE"
@@ -139,7 +153,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
                     </div>
                   )}
                 </div>
-                <span className="text-sm text-gray-500">Listing ID: {property.id}</span>
+                <span className="text-sm text-gray-500">
+                  Listing ID: {property.id}
+                </span>
               </div>
 
               <ul className="flex flex-wrap items-center text-sm text-gray-600 mt-2">
@@ -166,12 +182,14 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
             <div className="bg-white p-6 rounded-xl border border-gray-200">
               <h2 className="text-xl font-semibold mb-4">Property Details</h2>
               <p className="text-gray-700 mb-4">
-                This {property.beds}-bedroom, {property.baths}-bathroom property is located in{" "}
-                {property.city}, {property.state}. With {property.sqft.toLocaleString()} sqft of living
-                space, it offers great potential.
+                This {property.beds}-bedroom, {property.baths}-bathroom property
+                is located in {property.city}, {property.state}. With{" "}
+                {property.sqft.toLocaleString()} sqft of living space, it offers
+                great potential.
               </p>
               <p className="text-gray-700">
-                The property is listed {property.status.toLowerCase()} in {property.county} county.
+                The property is listed {property.status.toLowerCase()} in{" "}
+                {property.county} county.
                 {property.arvPrice && ` Estimated ARV: ${formattedArvPrice}.`}
               </p>
             </div>
@@ -188,18 +206,32 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
           {/* Right Contact Column */}
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-xl border border-gray-200">
-              <h2 className="text-xl font-semibold mb-4 text-blue-700">Contact Agent</h2>
+              <h2 className="text-xl font-semibold mb-4 text-blue-700">
+                Contact Agent
+              </h2>
               <form className="space-y-4">
-                <FloatingInput label="Your Name" type="text" />
-                <FloatingInput label="Email Address" type="email" />
-                <FloatingInput label="Phone Number" type="tel" />
+                <LabelInputContainer>
+                  <Label htmlFor="yourname">Your Name</Label>
+                  <Input id="yourname" placeholder="Name" type="text" />
+                </LabelInputContainer>
+
+                <LabelInputContainer className="mb-4">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    placeholder="projectmayhem@fc.com"
+                    type="email"
+                  />
+                </LabelInputContainer>
+                <LabelInputContainer>
+                  <Label htmlFor="number">Phone Number</Label>
+                  <Input id="number" placeholder="123-456-789" type="number" />
+                </LabelInputContainer>
                 <FloatingInput label="Your Message" type="textarea" />
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
-                >
-                  Send Message
-                </button>
+
+                <div className="flex h-40 w-full items-center justify-center">
+                  <Button onClick={handleClick}>Send message</Button>
+                </div>
               </form>
             </div>
           </div>
@@ -213,7 +245,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
               <button
                 onClick={() => setActiveTab("available")}
                 className={`px-4 py-1 text-sm rounded-full ${
-                  activeTab === "available" ? "bg-blue-600 text-white" : "text-gray-600"
+                  activeTab === "available"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-600"
                 }`}
               >
                 Available
@@ -221,7 +255,9 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
               <button
                 onClick={() => setActiveTab("sold")}
                 className={`px-4 py-1 text-sm rounded-full ${
-                  activeTab === "sold" ? "bg-blue-600 text-white" : "text-gray-600"
+                  activeTab === "sold"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-600"
                 }`}
               >
                 Sold
@@ -234,7 +270,11 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
               <div className="flex gap-4 pb-4">
                 {filteredProperties.map((prop) => (
                   <div key={prop.id} className="flex-shrink-0 w-72">
-                    <PropertyCard property={prop} compact onClick={() => onPropertyClick(prop)} />
+                    <PropertyCard
+                      property={prop}
+                      compact
+                      onClick={() => onPropertyClick(prop)}
+                    />
                   </div>
                 ))}
               </div>
@@ -242,13 +282,30 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({
           ) : (
             <div className="text-center text-gray-500 py-10">
               <p className="text-lg font-medium">
-                🚫 No {activeTab === "sold" ? "Sold" : "Available"} Properties Found
+                🚫 No {activeTab === "sold" ? "Sold" : "Available"} Properties
+                Found
               </p>
-              <p className="mt-2 text-sm">Try switching tabs or come back later.</p>
+              <p className="mt-2 text-sm">
+                Try switching tabs or come back later.
+              </p>
             </div>
           )}
         </div>
       </div>
+    </div>
+  );
+};
+
+const LabelInputContainer = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex w-full flex-col space-y-2", className)}>
+      {children}
     </div>
   );
 };

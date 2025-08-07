@@ -10,11 +10,14 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import { HoveredLink } from "./ui/navbar-menu";
+
+import { useRouter } from 'next/navigation';
+
 import { useState } from "react";
 
 function NavbarComponent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
   const navItems = [
     {
       name: "Features",
@@ -50,8 +53,18 @@ function NavbarComponent() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary">Login</NavbarButton>
-            <NavbarButton variant="gradient">Sign Up</NavbarButton>
+            <NavbarButton 
+              variant="secondary" 
+              onClick={() => router.push('/login')}
+            >
+              Login
+            </NavbarButton>
+            <NavbarButton 
+              variant="gradient" 
+              onClick={() => router.push('/signup')}
+            >
+              Sign Up
+            </NavbarButton>
             <NavbarButton variant="primary">Book a call</NavbarButton>
           </div>
         </NavBody>
@@ -82,6 +95,8 @@ function NavbarComponent() {
     </div>
   );
 }
+
+
 
 
 export default NavbarComponent;
