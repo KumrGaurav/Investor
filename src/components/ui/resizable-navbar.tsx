@@ -7,6 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
+import router from "next/router";
 import React, { useRef, useState } from "react";
 
 interface NavbarProps {
@@ -331,17 +332,15 @@ export const MobileNavMenu = ({
         >
           {children}
           <div className="flex w-full flex-row items-center justify-around gap-5 border-t border-gray-100 pt-4 dark:border-neutral-800">
-            <NavbarButton
-              onClick={onClose}
-              variant="secondary"
-              className="mx-auto w-full/2 text-center dark:text-white "
+            <NavbarButton 
+              variant="secondary" 
+              onClick={() => router.push('/login')}
             >
               Login
             </NavbarButton>
-            <NavbarButton
-              onClick={onClose}
-              variant="gradient"
-              className="mx-auto w-full/2 text-center dark:text-white "
+            <NavbarButton 
+              variant="gradient" 
+              onClick={() => router.push('/signup')}
             >
               Sign Up
             </NavbarButton>
