@@ -9,7 +9,7 @@ import SafeImage from "./SafeImage";
 interface PropertyCardProps {
   property: Property;
   compact?: boolean;
-  onClick?: () => void;
+  onClick: (property: Property) => void;
 }
 
 const PropertyCard = ({ property, compact = false, onClick }: PropertyCardProps) => {
@@ -46,7 +46,7 @@ const PropertyCard = ({ property, compact = false, onClick }: PropertyCardProps)
       whileHover={{ y: compact ? 0 : -5 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={onClick}
+      onClick={() => onClick(property)}
       style={{
         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: "transform 0.3s ease-out",

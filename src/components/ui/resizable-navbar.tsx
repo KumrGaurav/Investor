@@ -9,6 +9,8 @@ import {
 } from "framer-motion";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
+import Link from 'next/link';
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -334,6 +336,15 @@ export const MobileNavMenu = ({
         >
           {children}
           <div className="flex w-full flex-row items-center justify-around gap-5 border-t border-gray-100 pt-4 dark:border-neutral-800">
+            <button className="mx-auto p-[3px] relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+            <div className="flex items-center gap-2 px-8 py-2 bg-black rounded-[6px] relative group transition duration-200 text-white hover:bg-transparent">
+              <span className="w-7 h-7 flex items-center justify-center rounded-full bg-white">
+                <PlusIcon className="w-4 h-4 text-black" />
+              </span>
+              Post a deal
+            </div>
+          </button>
             <NavbarButton
               variant="secondary"
               onClick={() => {
@@ -384,18 +395,21 @@ export const MobileNavToggle = ({
 
 export const NavbarLogo = () => {
   return (
-    <a
-      href="#"
+    <Link
+      href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      passHref
     >
-      <img
-        src="https://assets.aceternity.com/logo-dark.png"
-        alt="logo"
-        width={30}
-        height={30}
-      />
-      <span className="font-medium text-black dark:text-white">Startup</span>
-    </a>
+      <div className="flex items-center space-x-2">
+        <img
+          src="https://assets.aceternity.com/logo-dark.png"
+          alt="logo"
+          width={30}
+          height={30}
+        />
+        <span className="font-medium text-black dark:text-white">Startup</span>
+      </div>
+    </Link>
   );
 };
 
@@ -411,7 +425,7 @@ export const NavbarButton = ({
   as?: React.ElementType;
   children: React.ReactNode;
   className?: string;
-  variant?: "primary" | "secondary" | "dark" | "gradient";
+  variant?: "primary" | "secondary" | "dark" | "gradient" | "success" | "danger";
 } & (
   | React.ComponentPropsWithoutRef<"a">
   | React.ComponentPropsWithoutRef<"button">
@@ -427,6 +441,10 @@ export const NavbarButton = ({
     dark: "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
     gradient:
       "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
+    success:
+      "bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white shadow-lg backdrop-blur-md bg-opacity-30 border border-green",
+    danger:
+    "bg-red-500 text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
   };
 
   return (
